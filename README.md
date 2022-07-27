@@ -4,7 +4,7 @@ This is a section of the Javascript Blockchain/Smart Contract FreeCodeCamp Cours
 
 [⌨️ (16:34:07) Subscription Code] (https://www.youtube.com/watch?v=gyMwXuJrbJQ&t=59647s)
 
-[Full Repo](https://github.com/smartcontractkit/full-blockchain-solidity-course-js)
+[Full Repo](https://https://github.com/obc92/Subscription)
 
 
 Built with using:
@@ -41,7 +41,7 @@ Video coming soon...
 ## Quickstart
 
 ```
-git clone https://github.com/PatrickAlphaC/nextjs-smartcontract-lottery-fcc
+git clone https://https://github.com/obc92/Subscription
 cd nextjs-smartcontract-lottery-fcc
 yarn
 yarn dev# Subscription
