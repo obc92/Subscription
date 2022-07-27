@@ -1,0 +1,35 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/Code.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.8;\n\nerror Sub_NotQuantity();\nerror Already_SUB();\n\ncontract Code {\n\n    //Variables\n\n    enum access {\n            DENIED,\n            GRANTED\n        }\n\n    struct Dades {\n        uint256 timer;\n        access s_access;\n    }\n\n    address payable [] private s_Wallets;\n    mapping (address => Dades) s_Registre;\n    address public immutable i_owner;\n    uint256 private s_SubPrice; //= 0.1 ether;\n    //access private s_access;\n\n    constructor (uint256 startPrice) {\n        i_owner = msg.sender;\n        s_SubPrice = startPrice;\n    }\n\n    modifier onlyOwner{\n        require(msg.sender == i_owner);  \n        _;     \n    }\n    //Functions\n    function Subscription() public payable {//uint256 tmr\n        \n        //Pay subscription\n        Dades memory find = s_Registre[msg.sender];\n        if (find.s_access == access.GRANTED){\n            revert Already_SUB();\n        }\n        if (msg.value != s_SubPrice){\n            revert Sub_NotQuantity();\n        }\n        //Add wallet to the s_Wallets\n        s_Wallets.push(payable(msg.sender));\n            //emit RaffleEnter(msg.sender);\n        //Start subscription time\n        Dades storage dades = s_Registre[msg.sender];\n        dades.timer = 10;\n        dades.s_access = access.GRANTED;\n        //s_Registre[msg.sender] += Dades.push(30, access = access.GRANTED);\n    }\n\n    function changePrice(uint256 newPrice) public onlyOwner {\n        s_SubPrice = newPrice;\n    }\n    function Withdraw () public onlyOwner {\n        // (bool callSuccess, ) = payable(msg.sender).call{value: address(this).balance}(\"\");\n        // require(callSuccess, \"Call failed\");\n        (bool Success, ) = i_owner.call{value: address(this).balance}(\"\");\n        require(Success);\n    }\n\n    //Getter functions\n    function getOwner() public view returns(address){\n        return i_owner;\n    }\n    function getPrice() public view returns(uint256) {\n        return s_SubPrice;\n    }\n    function getBalance() public view onlyOwner returns(uint256) {\n        return (address(this).balance);\n    }\n    function getSubscribers() public view returns (uint256) {\n        return s_Wallets.length;\n    }\n    function callTimer(address add) public view onlyOwner returns (uint256, access){\n        Dades memory timer = s_Registre[add];\n        return (timer.timer, timer.s_access);\n    }\n    // function callState(address add) public view onlyOwner returns (access){\n    //     Dades memory acc = s_Registre[add];\n    //     return acc.s_access;\n    // }\n    // function callList() public view onlyOwner returns (bytes32[]){\n    //     return s_Wallets;\n    // }\n\n    function getMembers() public view returns (address[] memory){\n      address[] memory id = new address[](s_Wallets.length);\n      for (uint i = 0; i < s_Wallets.length; i++) {\n          id[i] = s_Wallets[i];\n      }\n      return id;\n    }\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
